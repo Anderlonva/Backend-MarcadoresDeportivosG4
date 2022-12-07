@@ -7,7 +7,6 @@ Content-Type: application/json
     "apellido": "Londoño",
     "email": "anderson@mail.com",
     "password":"1234",
-    "foto":"https://avatars.githubusercontent.com/u/84043589?s=96&v=4",
     "estado": "Activo"
 
 }
@@ -25,7 +24,6 @@ Content-Type: application/json
     "apellido": "Londoño",
     "email": "anderson@mail.com",
     "password":"12345",
-    "foto":"https://avatars.githubusercontent.com/u/84043589?s=96&v=4",
     "estado": "Activo"
 
 }

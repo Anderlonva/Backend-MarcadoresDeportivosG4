@@ -38,7 +38,6 @@ router.post('/',  async function(req, res){
         usuario.apellido = req.body.apellido;
         usuario.email = req.body.email;
         usuario.password = req.body.password;
-        usuario.foto = req.body.foto;
         usuario.estado = req.body.estado;
         usuario.fechaCreacion = new Date();
         usuario.fechaActualizacion = new Date();
@@ -77,7 +76,6 @@ router.put('/:usuarioId', async function(req, res){
         usuario.apellido = req.body.apellido;
         usuario.email = req.body.email;
         usuario.password = req.body.password;
-        usuario.foto = req.body.foto;
         usuario.estado = req.body.estado;
         usuario.fechaActualizacion = new Date();
 

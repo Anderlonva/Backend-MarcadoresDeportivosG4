@@ -18,10 +18,6 @@ const UsuarioSchema = Schema({
         type: String,
         required: true
     },
-    foto: {
-        type: String,
-        required: true
-    },
     estado: {
         type: String,
         required: true,
