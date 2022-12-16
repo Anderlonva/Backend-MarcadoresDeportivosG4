@@ -38,15 +38,11 @@ const eventoSchema = Schema({
         ref: 'Usuario',
         required: true
     },
-
-    estado: {
+    fechaEvento: {
         type: String,
-        required: true,
-        enum: [
-            'Activo',
-            'Inactivo'
-        ]
+        required: true
     },
+    
     fechaCreacion: {
         type: Date,
         required: true

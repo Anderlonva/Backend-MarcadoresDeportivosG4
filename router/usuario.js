@@ -2,6 +2,8 @@ const e = require('express');
 const { Router } = require('express');
 const Usuario = require('../models/Usuario');
 const { validarUsuario } = require('../helpers/validacion-usuario');
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const router  = Router();
 
@@ -17,6 +19,7 @@ router.get('/', async function(req, res){
     }
 });
 
+/*
 router.post('/',  async function(req, res){
 
     try {
@@ -54,7 +57,7 @@ router.post('/',  async function(req, res){
 
    
 });
-
+*/
 
 router.put('/:usuarioId', async function(req, res){
     try {
@@ -72,10 +75,13 @@ router.put('/:usuarioId', async function(req, res){
             return res.status(400).send('El Email ya existe');
           }
 
+        //const salt = await bcrypt.genSalt()
+       // const passwordEncript = bcrypt.hashSync(req.body.password, salt)
+
         usuario.nombre = req.body.nombre;
         usuario.apellido = req.body.apellido;
         usuario.email = req.body.email;
-        usuario.password = req.body.password;
+        //usuario.password = passwordEncript;
         usuario.estado = req.body.estado;
         usuario.fechaActualizacion = new Date();
 
@@ -101,5 +107,134 @@ router.get('/:usuarioId', async function( req, res ) {
         console.log(error);
     }
 })
+
+
+
+router.post('/registro', async (req = request, res = response) => {
+
+    const { email, password } = req.body
+
+    try {
+        const usuarioExiste = await Usuario.findOne({
+            email: email
+        })
+
+        if (usuarioExiste) {
+            return res.status(400).json({
+                msg: 'Ya existe usuario'
+            })
+        }
+
+        const usuario = new Usuario()
+        const salt = await bcrypt.genSalt()
+        const passwordEncript = bcrypt.hashSync(password, salt)
+
+        usuario.nombre = req.body.nombre;
+        usuario.apellido = req.body.apellido;
+        usuario.email = req.body.email;
+        usuario.password = passwordEncript;
+        usuario.rol = 'Usuario';
+        usuario.estado = req.body.estado;
+        usuario.fechaCreacion = new Date();
+        usuario.fechaActualizacion = new Date();
+
+
+        const usuarioSave = await usuario.save()
+        return res.status(400).json(usuarioSave)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error })
+    }
+});
+
+
+router.post('/login', async (req = request, res = response) => {
+
+    const { email, password } = req.body
+
+    try {
+        const usuarioExiste = await Usuario.findOne({
+            email: email
+        })
+
+        if (!usuarioExiste) {
+            return res.status(400).json({
+                msg: 'No existe usuario',
+                token: false
+            })
+        }
+
+        if (usuarioExiste.estado == 'Inactivo') {
+            return res.status(400).json({
+                msg: 'El usuario esta Inactivo',
+                token: false
+            })
+        }
+
+        const compare = bcrypt.compareSync(password, usuarioExiste.password)
+        if (!compare) {
+            return res.status(400).json({
+                msg: 'contraseña incorrecta',
+                token: false
+            })
+        } 
+
+       /*const token = jwt.sign(
+            {
+                email: usuarioExiste.email,
+                nombre: usuarioExiste.nombre,
+                apellido: usuarioExiste.apellido
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "1h"
+            }
+        )*/
+
+        
+
+        return res.json({ usuarioExiste, token: true })
+    } catch (error) {
+
+    }
+});
+
+
+router.post('/registro/admin', async (req = request, res = response) => {
+
+    const { email, password } = req.body
+
+    try {
+        const usuarioExiste = await Usuario.findOne({
+            email: email
+        })
+
+        if (usuarioExiste) {
+            return res.status(400).json({
+                msg: 'Ya existe usuario'
+            })
+        }
+
+        const usuario = new Usuario()
+        const salt = await bcrypt.genSalt()
+        const passwordEncript = bcrypt.hashSync(password, salt)
+
+        usuario.nombre = req.body.nombre;
+        usuario.apellido = req.body.apellido;
+        usuario.email = req.body.email;
+        usuario.password = passwordEncript;
+        usuario.rol = 'Admin';
+        usuario.estado = req.body.estado;
+        usuario.fechaCreacion = new Date();
+        usuario.fechaActualizacion = new Date();
+
+
+        const usuarioSave = await usuario.save()
+        return res.status(400).json(usuarioSave)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error })
+    }
+});
 
 module.exports = router

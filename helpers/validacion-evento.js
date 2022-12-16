@@ -30,12 +30,6 @@ const validarEvento = (req) => {
         validacion.push('El usuario es requerido')
     }
 
-    if (!req.body.estado) {
-        validacion.push('Estado requerido')
-    }
-
-
-
     return validacion;
 
 }

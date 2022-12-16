@@ -3,6 +3,7 @@ const { Router } = require('express');
 const Deporte = require('../models/Deporte');
 const { validarDeporte } = require('../helpers/validacion-deporte');
 
+
 const router  = Router();
 
 router.get('/', async function(req, res){
@@ -19,7 +20,7 @@ router.get('/', async function(req, res){
 
 
 
-router.post('/',  async function(req, res){
+router.post('/', async function(req, res){
 
     try {
 
