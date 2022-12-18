@@ -25,6 +25,10 @@ const UsuarioSchema = Schema({
             'Usuario'
         ]
     },
+    foto: {
+        type: String,
+        required: true
+    },
     estado: {
         type: String,
         required: true,
