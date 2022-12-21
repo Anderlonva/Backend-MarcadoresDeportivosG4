@@ -7,7 +7,7 @@ const router  = Router();
 
 router.get('/', async function(req, res){
     try {
-        
+
         const deportes = await Equipo.find();
         res.send(deportes);
         
@@ -77,7 +77,7 @@ router.put('/:equipoId', async function(req, res){
           equipo.nombre = req.body.nombre;
           equipo.descripcion = req.body.descripcion;
           equipo.pais = req.body.pais;
-          equipo.foto = req.body.foto;
+          //equipo.foto = req.body.foto;
           equipo.estado = req.body.estado;
           equipo.fechaActualizacion = new Date();
 
