@@ -136,13 +136,13 @@ router.post('/registro', async (req = request, res = response) => {
         usuario.password = passwordEncript;
         usuario.rol = 'Usuario';
         usuario.foto = req.body.foto;
-        usuario.estado = req.body.estado;
+        usuario.estado = 'Activo';
         usuario.fechaCreacion = new Date();
         usuario.fechaActualizacion = new Date();
 
 
         const usuarioSave = await usuario.save()
-        return res.status(400).json(usuarioSave)
+        return res.status(200).json(usuarioSave)
     } catch (error) {
         console.log(error)
         return res.status(500).json({ error })
@@ -233,7 +233,7 @@ router.post('/registro/admin', async (req = request, res = response) => {
 
 
         const usuarioSave = await usuario.save()
-        return res.status(400).json(usuarioSave)
+        return res.status(200).json(usuarioSave)
     } catch (error) {
         console.log(error)
         return res.status(500).json({ error })

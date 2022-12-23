@@ -106,5 +106,24 @@ router.get('/:equipoId', async function( req, res ) {
     }
 })
 
+router.delete('/:equipoId', async (req, res) => { // borrar
+   
+    try {
+        let equipoId = req.params.equipoId
+
+    await Equipo.findById(equipoId, (error, equipo ) => {
+        
+        if (error) res.status(500).send({ message: `Error al Borrar el producto:  ${error}` })
+
+        equipo.remove(error => {
+            if (error) res.status(500).send({ message: `Error al Borrar el producto:  ${error}` })
+            res.status(200).send({message: `Equipo borrado`})
+        })
+    })
+    } catch (err) {
+        console.log(err)
+    }
+})
+
 
 module.exports = router
