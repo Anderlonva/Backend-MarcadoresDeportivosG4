@@ -140,6 +140,7 @@ router.post('/registro', async (req = request, res = response) => {
         usuario.fechaCreacion = new Date();
         usuario.fechaActualizacion = new Date();
 
+        
 
         const usuarioSave = await usuario.save()
         return res.status(200).json(usuarioSave)
